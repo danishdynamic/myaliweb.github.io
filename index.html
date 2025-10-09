@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jane Doe | Interactive Resume</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #FDFBF7;
+            color: #4A4A4A;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+        .skill-bar-fill {
+            transition: width 1.5s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+        .experience-card {
+            transition: all 0.3s ease-in-out;
+        }
+        .details-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s cubic-bezier(0.25, 1, 0.5, 1), padding 0.5s ease;
+            padding-top: 0;
+            padding-bottom: 0;
+        }
+        .details-content.open {
+            max-height: 1000px; 
+        }
+        /* Added for accessibility fix: sr-only utility */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border-width: 0;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header id="header" class="bg-white/80 backdrop-blur-md sticky top-0 z-50 shadow-sm">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="text-2xl font-bold text-slate-800">
+                Jane Doe
+            </div>
+            <div class="hidden md:flex space-x-8 items-center">
+                <a href="#overview" class="text-slate-600 hover:text-slate-900 transition-colors">Overview</a>
+                <a href="#experience" class="text-slate-600 hover:text-slate-900 transition-colors">Experience</a>
+                <a href="#skills" class="text-slate-600 hover:text-slate-900 transition-colors">Skills</a>
+                <a href="#education" class="text-slate-600 hover:text-slate-900 transition-colors">Education</a>
+            </div>
+            <div class="md:hidden">
+                <label for="mobile-nav" class="sr-only">Mobile Navigation Menu</label>
+                <select id="mobile-nav" class="bg-white border border-gray-300 rounded-md py-2 px-3 text-slate-700">
+                    <option value="#overview">Overview</option>
+                    <option value="#experience">Experience</option>
+                    <option value="#skills">Skills</option>
+                    <option value="#education">Education</option>
+                </select>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-6 py-8 md:py-12">
+
+        <section id="hero" class="text-center mb-16 md:mb-24">
+            <h1 class="text-4xl md:text-5xl font-bold text-slate-900 mb-4">Digital Marketing & Business Development Professional</h1>
+            <p class="text-lg md:text-xl text-slate-600 max-w-3xl mx-auto mb-6" id="professional-summary"></p>
+            <div id="contact-links" class="flex justify-center space-x-6 text-slate-500">
+            </div>
+        </section>
+
+        <section id="overview" class="mb-16 md:mb-24">
+            <h2 class="text-3xl font-bold text-center text-slate-800 mb-12">Career Overview</h2>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div class="bg-white p-6 rounded-xl shadow-lg">
+                    <h3 class="text-xl font-bold text-slate-700 mb-4 text-center">Key Achievements</h3>
+                    <p class="text-center text-slate-500 mb-6">This section highlights my most impactful, data-driven results across various roles, demonstrating a consistent ability to drive business growth and optimize performance.</p>
+                    <div id="key-metrics" class="grid grid-cols-1 sm:grid-cols-2 gap-6 text-center">
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-lg">
+                    <h3 class="text-xl font-bold text-slate-700 mb-4 text-center">Experience Focus</h3>
+                    <p class="text-center text-slate-500 mb-6">My professional journey spans multiple domains. This chart visualizes the distribution of my experience, showcasing a strong blend of marketing, sales, and technical expertise. Hover over a segment for more detail.</p>
+                    <div class="chart-container">
+                        <canvas id="experienceChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="experience" class="mb-16 md:mb-24">
+            <h2 class="text-3xl font-bold text-center text-slate-800 mb-6">Professional Experience</h2>
+            <p class="text-center text-slate-600 max-w-3xl mx-auto mb-10">Here you can explore my detailed work history. Use the filters to narrow down roles by specialization. Click on any role to see the specific responsibilities and achievements associated with it.</p>
+            <div id="experience-filters" class="flex justify-center flex-wrap gap-3 mb-10">
+            </div>
+            <div id="experience-timeline" class="relative border-l-2 border-slate-200 ml-4 md:ml-0">
+            </div>
+        </section>
+
+        <section id="skills" class="mb-16 md:mb-24">
+            <h2 class="text-3xl font-bold text-center text-slate-800 mb-12">Core Competencies</h2>
+            <p class="text-center text-slate-600 max-w-3xl mx-auto mb-12">This section provides a visual breakdown of my technical and professional skills, organized by category. The bars represent proficiency and experience level, highlighting the tools and methodologies I leverage to deliver results.</p>
+            <div id="skills-container" class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8">
+            </div>
+        </section>
+
+        <section id="education">
+            <h2 class="text-3xl font-bold text-center text-slate-800 mb-12">Education & Foundation</h2>
+            <div id="education-container" class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-slate-100 mt-16">
+        <div class="container mx-auto px-6 py-8 text-center text-slate-500">
+            <p>&copy; 2025 Jane Doe. Interactive resume created to demonstrate modern web capabilities.</p>
+        </div>
+    </footer>
+
+    <script>
+        const resumeData = {
+            summary: "Highly analytical and results-focused professional with 5+ years of experience driving quantifiable outcomes across Digital Marketing, Business Development, and Sales. Expert in translating complex data into actionable strategies, utilizing Python, SQL, Power BI, and Tableau to optimize funnels, and manage high-impact campaigns. Proven ability to reduce customer churn, accelerate sales pipelines, and drive performance marketing (e.g., 25% conversion increase) through technical SEO and custom web development. Seeking a challenging role focused on business growth and data-driven execution.",
+            contact: {
+                location: "Your City, State",
+                email: "your.email@example.com",
+                linkedin: "#",
+                portfolio: "#"
+            },
+            keyMetrics: [
+                { label: "Landing Page Conversion Increase", value: 25, suffix: "%" },
+                { label: "Direct Sales Revenue Growth", value: 15, suffix: "%" }
+            ],
+            experienceFocus: {
+                labels: ["Digital Marketing", "Business Development & Sales", "Technical & Data", "Finance & Trading"],
+                data: [40, 35, 15, 10]
+            },
+            experience: [
+                {
+                    title: "Digital Marketing & Performance Optimization",
+                    company: "Self-Employed (Freelance)",
+                    location: "Remote (India)",
+                    dates: "December 2023 – Present",
+                    tags: ["Marketing", "Technical"],
+                    details: [
+                        "Drove a 25% quantifiable increase in critical landing page response rates by integrating conversion-focused UI/UX adjustments and leveraging custom HTML/CSS within Squarespace builds.",
+                        "Managed and executed comprehensive SEO updates, incorporating strategic backlink acquisition and on-page optimization to elevate client site visibility and domain authority.",
+                        "Developed specialized, high-density 'chamber' pages (or pillar content) to establish topical authority, resulting in significant improvements in organic search rankings and high-quality inbound traffic.",
+                        "Oversaw the full development and maintenance lifecycle for client websites on Squarespace, routinely deploying custom code patches (HTML and CSS) to ensure optimal technical health."
+                    ]
+                },
+                {
+                    title: "Business Development Representative Level II & I",
+                    company: "DataBox Inc.",
+                    location: "Remote",
+                    dates: "June 2022 – November 2023",
+                    tags: ["Sales"],
+                    details: [
+                        "Developed and implemented a customer scoring model to prioritize high-value users for outreach, significantly accelerating qualified deal flow for the sales pipeline.",
+                        "Supported existing user base to proactively reduce churn and enhance customer retention, directly contributing to increased customer lifetime value.",
+                        "Identified and addressed data discrepancies, collaborating with the technical support team to ensure platform data integrity for end-users.",
+                        "Successfully prospected new users via strategic outreach across email, chat, and LinkedIn, consistently exceeding lead generation targets."
+                    ]
+                },
+                {
+                    title: "Customer Support Specialist",
+                    company: "DataBox Inc.",
+                    location: "Remote",
+                    dates: "April 2022 – May 2022",
+                    tags: ["Sales"],
+                    details: [
+                        "Improved the first response rate for all customer inquiries via email and chat, directly enhancing the early-stage customer experience and satisfaction.",
+                        "Responded to complex customer inquiries across various channels, maintaining high standards for technical accuracy and service quality."
+                    ]
+                },
+                {
+                    title: "Sales and Digital Marketing Specialist",
+                    company: "Martin STIPiČ SP",
+                    location: "Ljubljana, Slovenia",
+                    dates: "June 2021 – September 2021",
+                    tags: ["Marketing", "Technical"],
+                    details: [
+                        "Redesigned the site UX and updated the company website using a CMS to optimize visual hierarchy and user flow.",
+                        "Developed a price monitoring automation application using Python, SQLAlchemy, and Flask to facilitate real-time competitor price analysis.",
+                        "Implemented and managed email marketing automation sequences using MailChimp to nurture leads and re-engage dormant customers."
+                    ]
+                },
+                 {
+                    title: "Sales and Digital Marketing",
+                    company: "MINIMAL VS D.o.o",
+                    location: "Ljubljana, Slovenia",
+                    dates: "February 2019 – August 2019",
+                    tags: ["Marketing", "Sales"],
+                    details: [
+                        "Executed targeted B2C and B2B sales campaigns via Facebook and Google Ads, driving a 15% increase in measurable direct sales revenue.",
+                        "Managed the scheduling and automation of routine social media posting across multiple platforms to maintain brand presence.",
+                        "Designed and deployed email marketing automation workflows using Zoho CRM for customer segmentation and personalized campaigns."
+                    ]
+                },
+                {
+                    title: "Trader (Electricity Markets Europe)",
+                    company: "COMCOM D.o.o",
+                    location: "Ljubljana, Slovenia",
+                    dates: "February 2019 – June 2021",
+                    tags: ["Other"],
+                    details: [
+                        "Conducted high-level analysis, risk management, and monitoring of short-term UK electricity market contracts."
+                    ]
+                }
+            ],
+            skills: [
+                {
+                    category: "Data & Technical Stack",
+                    items: [
+                        { name: "Python", level: 90 },
+                        { name: "SQL", level: 85 },
+                        { name: "Power BI & Tableau", level: 75 },
+                        { name: "Flask", level: 60 }
+                    ]
+                },
+                {
+                    category: "Web Development & Platforms",
+                    items: [
+                        { name: "HTML & CSS", level: 95 },
+                        { name: "JavaScript", level: 70 },
+                        { name: "Squarespace & CMS", level: 90 }
+                    ]
+                },
+                 {
+                    category: "SEO & SEM",
+                    items: [
+                        { name: "On-Page & Technical SEO", level: 90 },
+                        { name: "Google & Facebook Ads", level: 85 },
+                        { name: "Keyword Research & Strategy", level: 80 }
+                    ]
+                },
+                {
+                    category: "Marketing & CRM",
+                    items: [
+                        { name: "HubSpot & Salesforce", level: 85 },
+                        { name: "Mailchimp & Zoho CRM", level: 90 },
+                        { name: "CRO & A/B Testing", level: 80 }
+                    ]
+                }
+            ],
+            education: [
+                {
+                    degree: "Bachelors of Electronics and Instrumentation Engineering",
+                    institution: "D.R.I.E.M.S (Orissa, India)",
+                    year: "Graduated Class of 2013",
+                    details: "Provided a strong foundation in logical problem-solving, systems analysis, and technical principles."
+                },
+                {
+                    degree: "Masters of Quantitative Finance and Actuarial Sciences",
+                    institution: "University of LJUBLJANA FACULTY OF ECONOMICS",
+                    year: "2016 – 2017",
+                    details: "Relevant Coursework: Advanced statistical modeling and data analysis for financial and market prediction."
+                }
+            ]
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            const populateContent = () => {
+                document.getElementById('professional-summary').textContent = resumeData.summary;
+
+                const contactLinks = document.getElementById('contact-links');
+                contactLinks.innerHTML = `
+                    <a href="mailto:${resumeData.contact.email}" class="flex items-center space-x-2 hover:text-slate-900 transition-colors"><span>Email</span></a>
+                    <a href="${resumeData.contact.linkedin}" target="_blank" class="flex items-center space-x-2 hover:text-slate-900 transition-colors"><span>LinkedIn</span></a>
+                    <a href="${resumeData.contact.portfolio}" target="_blank" class="flex items-center space-x-2 hover:text-slate-900 transition-colors"><span>Portfolio</span></a>
+                `;
+
+                const keyMetricsContainer = document.getElementById('key-metrics');
+                resumeData.keyMetrics.forEach(metric => {
+                    keyMetricsContainer.innerHTML += `
+                        <div class="bg-slate-50 p-4 rounded-lg">
+                            <p class="text-4xl font-bold text-slate-800 mb-1"><span class="metric-value" data-value="${metric.value}">0</span>${metric.suffix}</p>
+                            <p class="text-sm text-slate-500">${metric.label}</p>
+                        </div>`;
+                });
+                
+                const experienceTimeline = document.getElementById('experience-timeline');
+                resumeData.experience.forEach((job, index) => {
+                    experienceTimeline.innerHTML += `
+                        <div class="mb-8 ml-8 experience-card" data-tags="${job.tags.join(' ').toLowerCase()}">
+                            <span class="absolute flex items-center justify-center w-6 h-6 bg-slate-200 rounded-full -left-3 ring-8 ring-white"></span>
+                            <div class="bg-white p-6 rounded-xl shadow-lg cursor-pointer hover:shadow-xl hover:scale-[1.01] transition-all" data-index="${index}">
+                                <div class="flex justify-between items-start">
+                                    <div>
+                                        <h3 class="text-lg font-bold text-slate-900">${job.title}</h3>
+                                        <p class="text-md font-medium text-slate-600">${job.company} &bull; ${job.location}</p>
+                                        <time class="text-sm font-normal text-slate-400">${job.dates}</time>
+                                    </div>
+                                    <span class="text-2xl text-slate-400 toggle-icon">+</span>
+                                </div>
+                                <div class="details-content mt-4 border-t pt-4 border-slate-200 text-slate-600">
+                                    <ul class="list-disc pl-5 space-y-2">
+                                        ${job.details.map(d => `<li>${d}</li>`).join('')}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>`;
+                });
+
+                const allTags = [...new Set(resumeData.experience.flatMap(job => job.tags))];
+                const experienceFilters = document.getElementById('experience-filters');
+                experienceFilters.innerHTML = `<button class="filter-btn active px-4 py-2 bg-slate-800 text-white rounded-full text-sm font-medium" data-filter="all">All</button>`;
+                allTags.forEach(tag => {
+                    experienceFilters.innerHTML += `<button class="filter-btn px-4 py-2 bg-white text-slate-600 border border-slate-200 rounded-full text-sm font-medium hover:bg-slate-100" data-filter="${tag.toLowerCase()}">${tag}</button>`;
+                });
+
+                const skillsContainer = document.getElementById('skills-container');
+                resumeData.skills.forEach(skillCat => {
+                    const categoryDiv = document.createElement('div');
+                    categoryDiv.className = 'bg-white p-6 rounded-xl shadow-lg';
+                    categoryDiv.innerHTML = `<h3 class="text-xl font-bold text-slate-700 mb-6">${skillCat.category}</h3>`;
+                    const skillsList = document.createElement('div');
+                    skillsList.className = 'space-y-4';
+                    skillCat.items.forEach(item => {
+                        skillsList.innerHTML += `
+                            <div>
+                                <p class="text-sm font-medium text-slate-600 mb-1">${item.name}</p>
+                                <div class="w-full bg-slate-200 rounded-full h-2.5">
+                                    <div class="skill-bar-fill bg-slate-700 h-2.5 rounded-full" style="width: 0%" data-level="${item.level}"></div>
+                                </div>
+                            </div>`;
+                    });
+                    categoryDiv.appendChild(skillsList);
+                    skillsContainer.appendChild(categoryDiv);
+                });
+
+                const educationContainer = document.getElementById('education-container');
+                resumeData.education.forEach(edu => {
+                    educationContainer.innerHTML += `
+                        <div class="bg-white p-6 rounded-xl shadow-lg">
+                            <h3 class="text-lg font-bold text-slate-900">${edu.degree}</h3>
+                            <p class="text-md font-medium text-slate-600">${edu.institution}</p>
+                            <p class="text-sm text-slate-400 mb-3">${edu.year}</p>
+                            <p class="text-slate-600">${edu.details}</p>
+                        </div>`;
+                });
+            };
+
+            const setupInteractions = () => {
+                document.querySelectorAll('#experience-timeline .cursor-pointer').forEach(card => {
+                    card.addEventListener('click', () => {
+                        const content = card.querySelector('.details-content');
+                        const icon = card.querySelector('.toggle-icon');
+                        content.classList.toggle('open');
+                        
+                        if (content.classList.contains('open')) {
+                            content.style.paddingTop = '1rem';
+                            content.style.paddingBottom = '1rem';
+                            icon.textContent = '−';
+                        } else {
+                            content.style.paddingTop = '0';
+                            content.style.paddingBottom = '0';
+                            icon.textContent = '+';
+                        }
+                    });
+                });
+
+                document.querySelectorAll('.filter-btn').forEach(button => {
+                    button.addEventListener('click', () => {
+                        const filter = button.dataset.filter;
+                        // Correctly handle removal of active class for all buttons
+                        document.querySelectorAll('.filter-btn').forEach(btn => {
+                             btn.classList.remove('active', 'bg-slate-800', 'text-white');
+                             btn.classList.add('bg-white', 'text-slate-600', 'border', 'border-slate-200', 'hover:bg-slate-100');
+                        });
+                        
+                        // Apply active styling to the clicked button
+                        button.classList.add('active', 'bg-slate-800', 'text-white');
+                        button.classList.remove('bg-white', 'text-slate-600', 'border', 'border-slate-200', 'hover:bg-slate-100');
+                        
+                        document.querySelectorAll('.experience-card').forEach(card => {
+                            if (filter === 'all' || card.dataset.tags.includes(filter)) {
+                                card.style.display = 'block';
+                            } else {
+                                card.style.display = 'none';
+                            }
+                        });
+                    });
+                });
+
+                const mobileNav = document.getElementById('mobile-nav');
+                mobileNav.addEventListener('change', (e) => {
+                    window.location.hash = e.target.value;
+                });
+            };
+            
+            const createCharts = () => {
+                const ctx = document.getElementById('experienceChart').getContext('2d');
+                new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: resumeData.experienceFocus.labels,
+                        datasets: [{
+                            data: resumeData.experienceFocus.data,
+                            backgroundColor: ['#475569', '#64748b', '#94a3b8', '#cbd5e1'],
+                            borderColor: '#FDFBF7',
+                            borderWidth: 4,
+                            hoverOffset: 10
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'bottom',
+                                labels: {
+                                    padding: 20,
+                                    boxWidth: 12,
+                                    font: {
+                                        family: "'Inter', sans-serif"
+                                    }
+                                }
+                            }
+                        },
+                        cutout: '60%'
+                    }
+                });
+            };
+
+            const setupObservers = () => {
+                const animateValue = (el, start, end, duration) => {
+                    let startTimestamp = null;
+                    const step = (timestamp) => {
+                        if (!startTimestamp) startTimestamp = timestamp;
+                        const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                        el.innerHTML = Math.floor(progress * (end - start) + start);
+                        if (progress < 1) {
+                            window.requestAnimationFrame(step);
+                        }
+                    };
+                    window.requestAnimationFrame(step);
+                };
+
+                const metricObserver = new IntersectionObserver((entries, observer) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            const el = entry.target;
+                            const value = el.dataset.value;
+                            animateValue(el, 0, value, 1500);
+                            observer.unobserve(el);
+                        }
+                    });
+                }, { threshold: 0.5 });
+                
+                document.querySelectorAll('.metric-value').forEach(el => {
+                    metricObserver.observe(el);
+                });
+
+                const skillObserver = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.style.width = entry.target.dataset.level + '%';
+                        }
+                    });
+                }, { threshold: 0.2 });
+
+                document.querySelectorAll('.skill-bar-fill').forEach(bar => {
+                    skillObserver.observe(bar);
+                });
+            };
+
+            populateContent();
+            setupInteractions();
+            createCharts();
+            setupObservers();
+        });
+    </script>
+</body>
+</html>
