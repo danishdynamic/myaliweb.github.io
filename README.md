@@ -1,6 +1,6 @@
 # 📄 Ali’s Résumé Website
 
-A clean, **fully responsive** résumé website built using **ReactJS** and **Tailwind CSS**. The entire application is bundled into a single HTML file (`resume.html`) for extremely simple hosting, as currrently hosted in github.
+A clean, **fully responsive** résumé website built using **ReactJS** and **Tailwind CSS**. The entire application is bundled into a single HTML file (`index.html`) for extremely simple hosting, as currrently hosted in github.
 
 This project showcases my professional experience, skills, and contact information in a modern, lightweight, and easily deployable format.
 
@@ -35,7 +35,7 @@ This project showcases my professional experience, skills, and contact informati
 The single-file approach makes the repository very clean:
 
 - **project-root/**
-  - resume.html
+  - index.html
   - README.md
 
 
@@ -59,7 +59,7 @@ To view the site locally, no build tools or servers are required!
 
 Since this is a single, self-contained HTML file, deployment is trivial on any static hosting platform:
 
-1.  **Upload `resume.html`** as your site's root file (e.g., `index.html` if the host requires it).
+1.  **Upload `index.html`** as your site's root file (e.g., `index.html` if the host requires it).
 2.  **Done!**
 
 Recommended services:
