@@ -16,7 +16,7 @@ This project showcases my professional experience, skills, and contact informati
 
 * **Fully Responsive UI:** Adapts seamlessly to all screen sizes (desktop, tablet, and mobile).
 * **Modern Design:** Sleek, minimalist aesthetics powered by **Tailwind CSS**.
-* **Single-File Build:** Built using React components but optimized and exported as a **single HTML file** (`resume.html`).
+* **Single-File Build:** Built using React components but optimized and exported as a **single HTML file** (`index.html`).
 * **Fast and Lightweight:** Minimal footprint for near-instant loading.
 * **Easy to Modify:** Simple structure for quick updates and redeployment.
 
