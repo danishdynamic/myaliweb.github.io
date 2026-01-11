@@ -10,21 +10,52 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Inter', sans-serif; background-color: #FDFBF7; color: #4A4A4A; }
+        /* New cleaner background color */
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; color: #334155; }
         .mono { font-family: 'JetBrains Mono', monospace; }
         .chart-container { position: relative; width: 100%; max-width: 400px; margin: auto; height: 300px; }
         .skill-bar-fill { transition: width 1.5s cubic-bezier(0.25, 1, 0.5, 1); }
-        .details-content { max-height: 0; overflow: hidden; transition: max-height 0.5s ease-in-out; }
-        .details-content.open { max-height: 1000px; padding: 1rem 0; }
-        .project-card:hover { transform: translateY(-5px); transition: all 0.3s ease; }
+        
+        /* Portfolio Animation (Framer-like behavior) */
+        .project-card { 
+            opacity: 0; 
+            transform: translateY(20px); 
+            transition: all 0.6s cubic-bezier(0.22, 1, 0.36, 1); 
+        }
+        .project-card.visible { 
+            opacity: 1; 
+            transform: translateY(0); 
+        }
+        .project-card:hover { 
+            transform: translateY(-8px) scale(1.02); 
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+        }
+
+        .timeline-dot::before {
+            content: '';
+            position: absolute;
+            left: -9px;
+            top: 5px;
+            width: 16px;
+            height: 16px;
+            background-color: #2563eb;
+            border-radius: 50%;
+            border: 4px solid #f8fafc;
+        }
+
+        @media print {
+            .no-print { display: none; }
+            body { background: white; }
+            .project-card { opacity: 1; transform: none; border: 1px solid #e2e8f0; }
+        }
     </style>
 </head>
 <body class="antialiased">
 
-    <header id="header" class="bg-white/80 backdrop-blur-md sticky top-0 z-50 shadow-sm">
+    <header id="header" class="bg-white/90 backdrop-blur-md sticky top-0 z-50 shadow-sm no-print">
         <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
             <div class="text-2xl font-bold text-slate-800">Sk Ali Dara</div>
-            <div class="hidden md:flex space-x-8 items-center font-medium">
+            <div class="hidden md:flex space-x-8 items-center font-medium text-slate-600">
                 <a href="#overview" class="hover:text-blue-600 transition-colors">Strategy</a>
                 <a href="#projects" class="hover:text-blue-600 transition-colors">Projects</a>
                 <a href="#experience" class="hover:text-blue-600 transition-colors">History</a>
@@ -39,19 +70,26 @@
             <h1 class="text-4xl md:text-6xl font-bold text-slate-900 mt-6 mb-6">Full-Stack Engineer <br><span class="text-blue-600">& Data Strategist</span></h1>
             <p class="text-lg md:text-xl text-slate-600 max-w-3xl mx-auto mb-8 leading-relaxed">
                 Bridging the gap between <strong>complex financial systems</strong> and <strong>modern web architecture</strong>. 
-                Ex-Power Trader and Marketing Strategist now building high-frequency trading tools, scalable APIs, and ML-driven applications.
+                Ex-Power Trader now building high-frequency trading tools, scalable APIs, and ML-driven applications.
             </p>
-            <div id="contact-links" class="flex justify-center space-x-6 text-slate-500 font-medium"></div>
+            
+            <div class="flex flex-col sm:flex-row justify-center items-center gap-4 mb-8">
+                <div id="contact-links" class="flex space-x-6 text-slate-500 font-medium"></div>
+                <button onclick="window.print()" class="no-print flex items-center px-5 py-2 bg-white border border-slate-200 text-slate-700 rounded-full hover:bg-slate-50 transition-all shadow-sm font-medium">
+                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                    Download PDF
+                </button>
+            </div>
         </section>
 
         <section id="overview" class="mb-24">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
-                <div class="bg-white p-8 rounded-2xl shadow-xl border border-slate-100">
-                    <h3 class="text-2xl font-bold text-slate-800 mb-6">Business Impact</h3>
+                <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200">
+                    <h3 class="text-2xl font-bold text-slate-800 mb-6 text-center lg:text-left">Business Impact</h3>
                     <div id="key-metrics" class="grid grid-cols-1 sm:grid-cols-2 gap-6"></div>
                 </div>
-                <div class="bg-white p-8 rounded-2xl shadow-xl border border-slate-100">
-                    <h3 class="text-2xl font-bold text-slate-800 mb-2">Technical Distribution</h3>
+                <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200">
+                    <h3 class="text-2xl font-bold text-slate-800 mb-2 text-center lg:text-left">Technical Distribution</h3>
                     <div class="chart-container">
                         <canvas id="experienceChart"></canvas>
                     </div>
@@ -61,21 +99,15 @@
 
         <section id="projects" class="mb-24">
             <h2 class="text-3xl font-bold text-center text-slate-800 mb-4">Technical Portfolio</h2>
-            <p class="text-center text-slate-600 mb-12">Recent builds spanning HFT components, Full-Stack Web, and Machine Learning.</p>
-            <div id="github-projects" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                </div>
-            <div class="text-center mt-12">
-                <a href="https://github.com/danishdynamic" target="_blank" class="inline-flex items-center px-6 py-3 bg-slate-900 text-white rounded-lg hover:bg-slate-800 transition-all font-bold">
-                    View More on GitHub
-                    <svg class="w-5 h-5 ml-2" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.041-1.412-4.041-1.412-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.841 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
-                </a>
-            </div>
+            <p class="text-center text-slate-500 mb-12">Recent builds spanning HFT components and Machine Learning.</p>
+            <div id="github-projects" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
         </section>
 
         <section id="experience" class="mb-24">
             <h2 class="text-3xl font-bold text-center text-slate-800 mb-12">Professional Journey</h2>
-            <div id="experience-filters" class="flex justify-center flex-wrap gap-3 mb-10"></div>
-            <div id="experience-timeline" class="relative border-l-2 border-slate-200 ml-4 md:ml-0"></div>
+            <div class="max-w-4xl mx-auto">
+                <div id="experience-timeline" class="relative border-l-2 border-slate-200 ml-4 md:ml-6 space-y-12 pb-8"></div>
+            </div>
         </section>
 
         <section id="skills" class="mb-24">
@@ -84,16 +116,15 @@
         </section>
     </main>
 
-    <footer class="bg-slate-900 text-slate-400 py-12">
+    <footer class="bg-slate-900 text-slate-400 py-12 no-print">
         <div class="container mx-auto px-6 text-center">
-            <p class="mb-4">Built with Html, Javascript, Tailwind CSS.</p>
-            <p>&copy; 2026 Sk Ali Dara. All rights reserved.</p>
+            <p class="mb-4">Built with HTML, Tailwind CSS & Chart.js</p>
+            <p>&copy; 2026 Sk Ali Dara</p>
         </div>
     </footer>
 
     <script>
         const resumeData = {
-            summary: "Transitioning from a decade in Business Development and Energy Trading to Full-Stack Engineering. I specialize in building robust backends with Django/FastAPI and low-level optimization in C.",
             contact: {
                 email: "skalidara@gmail.com",
                 linkedin: "https://www.linkedin.com/in/ali-dara-sk/",
@@ -102,9 +133,8 @@
             keyMetrics: [
                 { label: "Growth via Tech SEO", value: 8, suffix: "%" },
                 { label: "Sales Revenue Growth", value: 15, suffix: "%" },
-                { label: "Trading Analysis Accuracy", value: 92, suffix: "%" }
+                { label: "Trading Analysis Accuracy", value: 65, suffix: "%" }
             ],
-            // Hardcoded projects based on your request
             projects: [
                 {
                     title: "HFT Order Book Component",
@@ -123,12 +153,6 @@
                     desc: "Architected a complex Django-based platform with custom middleware and robust authentication.",
                     tech: ["Python", "Django", "Redis", "Docker"],
                     link: "https://github.com/danishdynamic"
-                },
-                {
-                    title: "Deep Learning Market Predictor",
-                    desc: "Leveraged Masters-level quantitative finance skills to build neural networks for market trend forecasting.",
-                    tech: ["Python", "PyTorch", "Pandas", "Scikit-learn"],
-                    link: "https://github.com/danishdynamic"
                 }
             ],
             experienceFocus: {
@@ -137,29 +161,26 @@
             },
             experience: [
                 {
-                    title: "Full-Stack Development & SEO Optimization",
+                    title: "Full-Stack Development & SEO",
                     company: "Freelance / Technical Pivot",
                     location: "Remote",
                     dates: "2023 – Present",
-                    tags: ["Technical", "Marketing"],
                     details: [
-                        "Building custom web solutions using Python (Django/FastAPI) and modern JS frameworks.",
-                        "Optimizing technical SEO via code-level improvements, resulting in 8% conversion growth.",
-                        "Developing automation scripts for client data scraping and lead generation."
+                        "Building custom web solutions using Python (Django/FastAPI).",
+                        "Optimizing technical SEO via code-level improvements.",
+                        "Developing automation scripts for client data scraping."
                     ]
                 },
                 {
-                    title: "Trader (Electricity Markets Europe)",
+                    title: "Trader (Electricity Markets)",
                     company: "COMCOM D.o.o",
                     location: "Ljubljana, Slovenia",
                     dates: "2019 – 2021",
-                    tags: ["Finance"],
                     details: [
-                        "Conducted high-frequency analysis and risk management of UK electricity market contracts.",
-                        "Managed real-time data feeds to make split-second trading decisions in volatile markets."
+                        "Conducted high-frequency analysis of UK electricity market contracts.",
+                        "Managed real-time data feeds to make split-second trading decisions."
                     ]
                 }
-                // ... Add other experiences as per your original data
             ],
             skills: [
                 {
@@ -182,42 +203,58 @@
         };
 
         document.addEventListener('DOMContentLoaded', () => {
-            // Populate Metrics
+            // Metrics
             const metricsContainer = document.getElementById('key-metrics');
             resumeData.keyMetrics.forEach(m => {
                 metricsContainer.innerHTML += `
                     <div class="bg-slate-50 p-6 rounded-xl border border-slate-100">
                         <p class="text-3xl font-bold text-blue-600 mb-1"><span class="metric-value" data-value="${m.value}">0</span>${m.suffix}</p>
-                        <p class="text-sm font-medium text-slate-500 uppercase tracking-wide">${m.label}</p>
+                        <p class="text-sm font-medium text-slate-400 uppercase tracking-wide">${m.label}</p>
                     </div>`;
             });
 
-            // Populate Projects
+            // Projects with Animation Class
             const projectContainer = document.getElementById('github-projects');
-            resumeData.projects.forEach(p => {
+            resumeData.projects.forEach((p, index) => {
                 projectContainer.innerHTML += `
-                    <div class="project-card bg-white p-6 rounded-2xl shadow-lg border border-slate-100 flex flex-col">
+                    <div class="project-card bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex flex-col" style="transition-delay: ${index * 100}ms">
                         <div class="flex justify-between items-start mb-4">
                             <h3 class="font-bold text-lg text-slate-800">${p.title}</h3>
                             <a href="${p.link}" class="text-blue-500 hover:text-blue-700"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg></a>
                         </div>
-                        <p class="text-slate-600 text-sm mb-6 flex-grow">${p.desc}</p>
+                        <p class="text-slate-500 text-sm mb-6 flex-grow">${p.desc}</p>
                         <div class="flex flex-wrap gap-2">
                             ${p.tech.map(t => `<span class="mono text-[10px] bg-slate-100 px-2 py-1 rounded text-slate-600 font-bold">${t}</span>`).join('')}
                         </div>
                     </div>`;
             });
 
-            // Populate Contact
+            // Experience
+            const expTimeline = document.getElementById('experience-timeline');
+            resumeData.experience.forEach(exp => {
+                expTimeline.innerHTML += `
+                    <div class="relative pl-8 timeline-dot">
+                        <div class="flex flex-col md:flex-row md:justify-between mb-2">
+                            <h3 class="text-xl font-bold text-slate-800">${exp.title}</h3>
+                            <span class="text-blue-600 font-bold mono text-sm">${exp.dates}</span>
+                        </div>
+                        <p class="text-slate-500 font-medium mb-4">${exp.company} | ${exp.location}</p>
+                        <ul class="list-disc list-outside ml-4 text-slate-500 space-y-2">
+                            ${exp.details.map(d => `<li>${d}</li>`).join('')}
+                        </ul>
+                    </div>`;
+            });
+
+            // Contact
             document.getElementById('contact-links').innerHTML = `
-                <a href="mailto:${resumeData.contact.email}" class="hover:text-blue-600 transition-colors">Email</a>
-                <span>•</span>
-                <a href="${resumeData.contact.linkedin}" target="_blank" class="hover:text-blue-600 transition-colors">LinkedIn</a>
-                <span>•</span>
-                <a href="${resumeData.contact.portfolio}" target="_blank" class="hover:text-blue-600 transition-colors">GitHub</a>
+                <a href="mailto:${resumeData.contact.email}" class="hover:text-blue-600">Email</a>
+                <span class="text-slate-300">•</span>
+                <a href="${resumeData.contact.linkedin}" target="_blank" class="hover:text-blue-600">LinkedIn</a>
+                <span class="text-slate-300">•</span>
+                <a href="${resumeData.contact.portfolio}" target="_blank" class="hover:text-blue-600">GitHub</a>
             `;
 
-            // Charts
+            // Chart
             const ctx = document.getElementById('experienceChart').getContext('2d');
             new Chart(ctx, {
                 type: 'doughnut',
@@ -226,41 +263,44 @@
                     datasets: [{
                         data: resumeData.experienceFocus.data,
                         backgroundColor: ['#2563eb', '#3b82f6', '#94a3b8', '#cbd5e1'],
-                        borderWidth: 0,
-                        hoverOffset: 15
+                        borderWidth: 0
                     }]
                 },
-                options: { cutout: '70%', plugins: { legend: { position: 'bottom', labels: { boxWidth: 10, padding: 20 } } } }
+                options: { cutout: '75%', plugins: { legend: { position: 'bottom' } } }
             });
 
-            // Skills Logic
+            // Skills
             const skillsContainer = document.getElementById('skills-container');
             resumeData.skills.forEach(cat => {
                 let itemsHtml = cat.items.map(i => `
                     <div class="mb-4">
-                        <div class="flex justify-between text-sm mb-1 font-medium text-slate-700"><span>${i.name}</span><span>${i.level}%</span></div>
+                        <div class="flex justify-between text-sm mb-1 font-medium text-slate-600"><span>${i.name}</span><span>${i.level}%</span></div>
                         <div class="w-full bg-slate-200 h-1.5 rounded-full overflow-hidden">
-                            <div class="skill-bar-fill bg-blue-600 h-full rounded-full" style="width: 0%" data-level="${i.level}"></div>
+                            <div class="skill-bar-fill bg-blue-600 h-full" style="width: 0%" data-level="${i.level}"></div>
                         </div>
                     </div>`).join('');
-                skillsContainer.innerHTML += `<div class="bg-white p-6 rounded-xl shadow-md border border-slate-50"><h4 class="font-bold mb-6 text-slate-800">${cat.category}</h4>${itemsHtml}</div>`;
+                skillsContainer.innerHTML += `<div class="bg-white p-6 rounded-xl border border-slate-200"><h4 class="font-bold mb-6 text-slate-800">${cat.category}</h4>${itemsHtml}</div>`;
             });
 
-            // Simple intersection observer for bars
-            const obs = new IntersectionObserver(ents => {
+            // Intersection Observers for Animations
+            const revealObs = new IntersectionObserver(ents => {
+                ents.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible') });
+            }, { threshold: 0.1 });
+            document.querySelectorAll('.project-card').forEach(c => revealObs.observe(c));
+
+            const skillObs = new IntersectionObserver(ents => {
                 ents.forEach(e => { if(e.isIntersecting) e.target.style.width = e.target.dataset.level + '%' });
             }, { threshold: 0.5 });
-            document.querySelectorAll('.skill-bar-fill').forEach(b => obs.observe(b));
-            
-            // Animation for numbers
+            document.querySelectorAll('.skill-bar-fill').forEach(b => skillObs.observe(b));
+
             const numObs = new IntersectionObserver(ents => {
                 ents.forEach(e => {
                     if(e.isIntersecting) {
                         let val = parseInt(e.target.dataset.value);
                         let curr = 0;
                         let inv = setInterval(() => {
-                            if(curr >= val) clearInterval(inv);
-                            e.target.innerText = curr++;
+                            if(curr >= val) { e.target.innerText = val; clearInterval(inv); }
+                            else { e.target.innerText = curr++; }
                         }, 30);
                     }
                 });
@@ -270,4 +310,3 @@
     </script>
 </body>
 </html>
-
