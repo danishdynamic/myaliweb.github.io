@@ -12,8 +12,7 @@
     <style>
         body { font-family: 'Inter', sans-serif; background-color: #f8fafc; color: #334155; }
         .mono { font-family: 'JetBrains Mono', monospace; }
-        .chart-container { position: relative; width: 100%; max-width: 400px; margin: auto; height: 300px; }
-        .skill-bar-fill { transition: width 1.5s cubic-bezier(0.25, 1, 0.5, 1); }
+        .chart-container { position: relative; width: 100%; max-width: 500px; margin: auto; height: 350px; }
         
         /* Portfolio Animation */
         .project-card { 
@@ -56,7 +55,6 @@
         <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
             <div class="text-2xl font-bold text-slate-800">Sk Ali Dara</div>
             <div class="hidden md:flex space-x-8 items-center font-medium text-slate-600">
-                <a href="#overview" class="hover:text-blue-600 transition-colors">Strategy</a>
                 <a href="#projects" class="hover:text-blue-600 transition-colors">Projects</a>
                 <a href="#experience" class="hover:text-blue-600 transition-colors">History</a>
                 <a href="#skills" class="hover:text-blue-600 transition-colors">Skills</a>
@@ -83,15 +81,14 @@
         </section>
 
         <section id="projects" class="mb-24">
-            <h2 class="text-3xl font-bold text-center text-slate-800 mb-4">Technical Portfolio</h2>
+            <h2 class="text-3xl font-bold text-center text-slate-800 mb-12">Technical Portfolio</h2>
             <div id="github-projects" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
-            
-            <div class="mt-12 text-center no-print">
-                <a href="https://github.com/danishdynamic" target="_blank" class="inline-flex items-center px-8 py-4 bg-white border border-slate-200 text-slate-800 font-bold rounded-xl hover:bg-slate-50 transition-all shadow-sm group">
-                    <svg class="w-6 h-6 mr-3 text-slate-900 group-hover:scale-110 transition-transform" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.041-1.412-4.041-1.412-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.841 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
-                    Explore All Projects on GitHub
-                    <svg class="w-4 h-4 ml-3 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
-                </a>
+        </section>
+
+        <section id="skills" class="mb-24 bg-slate-50 py-12 rounded-3xl border border-slate-100">
+            <h2 class="text-3xl font-bold text-center text-slate-800 mb-8">Technical Proficiency</h2>
+            <div class="chart-container">
+                <canvas id="skillsChart"></canvas>
             </div>
         </section>
 
@@ -102,6 +99,16 @@
             </div>
         </section>
     </main>
+
+    <footer class="bg-white border-t border-slate-200 py-12 no-print">
+        <div class="container mx-auto px-6 text-center">
+            <p class="text-slate-400 font-medium mono mb-2">Designed & Developed by</p>
+            <p class="text-xl font-bold text-slate-800 tracking-tight">@skalidara</p>
+            <div class="mt-6 flex justify-center space-x-4">
+                <div class="h-1 w-12 bg-blue-600 rounded-full"></div>
+            </div>
+        </div>
+    </footer>
 
     <script>
         const resumeData = {
@@ -135,7 +142,7 @@
                     title: "Full-Stack Development & SEO",
                     company: "Freelance / Technical Pivot",
                     location: "Remote",
-                    dates: "2023 – Present",
+                    dates: "Dec 2023 – Present",
                     details: [
                         "Architecting robust backends using Python (Django/FastAPI) and modern JS frameworks.",
                         "Optimizing technical SEO infrastructure, leading to significant increases in organic conversion.",
@@ -178,7 +185,7 @@
                     title: "Trader (Electricity Markets)",
                     company: "COMCOM D.o.o",
                     location: "Ljubljana, Slovenia",
-                    dates: "2019 – 2021",
+                    dates: "Feb 2019 – Jun 2021",
                     details: [
                         "Executed high-frequency trades in the UK energy market based on real-time data analysis.",
                         "Developed custom analytical tools to process market volatility and optimize trade entry/exit."
@@ -228,6 +235,37 @@
                 <span class="text-slate-300">•</span>
                 <a href="${resumeData.contact.portfolio}" target="_blank" class="hover:text-blue-600">GitHub</a>
             `;
+
+            // Skills Chart Configuration
+            const ctx = document.getElementById('skillsChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'radar',
+                data: {
+                    labels: ['Backend (Python/Django)', 'Frontend (React/TS)', 'Low-Level (C)', 'Data Analysis', 'SEO/Growth', 'System Design'],
+                    datasets: [{
+                        label: 'Proficiency Level %',
+                        data: [75, 68, 62, 72, 70, 65], // Values strictly between 60 and 75
+                        backgroundColor: 'rgba(37, 99, 235, 0.2)',
+                        borderColor: 'rgba(37, 99, 235, 1)',
+                        borderWidth: 2,
+                        pointBackgroundColor: 'rgba(37, 99, 235, 1)',
+                    }]
+                },
+                options: {
+                    scales: {
+                        r: {
+                            angleLines: { display: true },
+                            suggestedMin: 0,
+                            suggestedMax: 100,
+                            ticks: { stepSize: 20, display: false }
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    maintainAspectRatio: false
+                }
+            });
 
             // Observer for Animations
             const revealObs = new IntersectionObserver(ents => {
