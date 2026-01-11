@@ -15,7 +15,7 @@
         .chart-container { position: relative; width: 100%; max-width: 400px; margin: auto; height: 300px; }
         .skill-bar-fill { transition: width 1.5s cubic-bezier(0.25, 1, 0.5, 1); }
         
-        /* Smooth Entrance Animation */
+        /* Portfolio Animation */
         .project-card { 
             opacity: 0; 
             transform: translateY(20px); 
@@ -46,7 +46,7 @@
             .no-print { display: none !important; }
             body { background: white; padding: 0; margin: 0; }
             .container { width: 100% !important; max-width: none !important; }
-            .project-card { opacity: 1 !transform: none; border: 1px solid #e2e8f0; break-inside: avoid; }
+            .project-card { opacity: 1; transform: none; border: 1px solid #e2e8f0; break-inside: avoid; }
         }
     </style>
 </head>
@@ -69,41 +69,25 @@
             <span class="px-4 py-1.5 bg-blue-100 text-blue-700 rounded-full text-sm font-bold uppercase tracking-wider">The Engineering Pivot</span>
             <h1 class="text-4xl md:text-6xl font-bold text-slate-900 mt-6 mb-6">Full-Stack Engineer <br><span class="text-blue-600">& Data Strategist</span></h1>
             <p class="text-lg md:text-xl text-slate-600 max-w-3xl mx-auto mb-8 leading-relaxed">
-                Bridging the gap between <strong>complex financial systems</strong> and <strong>modern web architecture</strong>. 
-                Ex-Power Trader and Analyst now building high-frequency trading tools, scalable APIs, and ML-driven applications.
+                Ex-Power Trader and Analyst building high-performance <strong>technical infrastructure</strong>. 
+                Expertise in low-latency systems, scalable web backends, and data-driven business growth.
             </p>
             
             <div class="flex flex-col sm:flex-row justify-center items-center gap-4 mb-8">
                 <div id="contact-links" class="flex space-x-6 text-slate-500 font-medium"></div>
-                <button onclick="window.print()" class="no-print flex items-center px-5 py-2 bg-slate-900 text-white rounded-full hover:bg-slate-800 transition-all shadow-md font-medium">
+                <button onclick="window.print()" class="no-print flex items-center px-6 py-2.5 bg-slate-900 text-white rounded-full hover:bg-slate-800 transition-all shadow-md font-medium">
                     <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
                     Download as PDF
                 </button>
             </div>
         </section>
 
-        <section id="overview" class="mb-24">
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
-                <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200">
-                    <h3 class="text-2xl font-bold text-slate-800 mb-6 text-center lg:text-left">Business Impact</h3>
-                    <div id="key-metrics" class="grid grid-cols-1 sm:grid-cols-2 gap-6"></div>
-                </div>
-                <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200">
-                    <h3 class="text-2xl font-bold text-slate-800 mb-2 text-center lg:text-left">Technical Distribution</h3>
-                    <div class="chart-container">
-                        <canvas id="experienceChart"></canvas>
-                    </div>
-                </div>
-            </div>
-        </section>
-
         <section id="projects" class="mb-24">
             <h2 class="text-3xl font-bold text-center text-slate-800 mb-4">Technical Portfolio</h2>
-            <p class="text-center text-slate-500 mb-12">Recent builds spanning HFT components and Machine Learning.</p>
             <div id="github-projects" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
             
-            <div class="mt-16 text-center no-print">
-                <a href="https://github.com/danishdynamic" target="_blank" class="inline-flex items-center px-8 py-4 bg-white border border-slate-200 text-slate-800 font-bold rounded-xl hover:bg-slate-50 hover:border-slate-300 transition-all shadow-sm group">
+            <div class="mt-12 text-center no-print">
+                <a href="https://github.com/danishdynamic" target="_blank" class="inline-flex items-center px-8 py-4 bg-white border border-slate-200 text-slate-800 font-bold rounded-xl hover:bg-slate-50 transition-all shadow-sm group">
                     <svg class="w-6 h-6 mr-3 text-slate-900 group-hover:scale-110 transition-transform" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.041-1.412-4.041-1.412-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.841 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
                     Explore All Projects on GitHub
                     <svg class="w-4 h-4 ml-3 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
@@ -117,19 +101,7 @@
                 <div id="experience-timeline" class="relative border-l-2 border-slate-200 ml-4 md:ml-6 space-y-12 pb-8"></div>
             </div>
         </section>
-
-        <section id="skills" class="mb-24">
-            <h2 class="text-3xl font-bold text-center text-slate-800 mb-12">Technical Stack</h2>
-            <div id="skills-container" class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8"></div>
-        </section>
     </main>
-
-    <footer class="bg-slate-900 text-slate-400 py-12 no-print">
-        <div class="container mx-auto px-6 text-center">
-            <p class="mb-4 text-sm uppercase tracking-widest font-bold text-slate-500">Available for Opportunities</p>
-            <p>&copy; 2026 Sk Ali Dara</p>
-        </div>
-    </footer>
 
     <script>
         const resumeData = {
@@ -138,11 +110,6 @@
                 linkedin: "https://www.linkedin.com/in/ali-dara-sk/",
                 portfolio: "https://github.com/danishdynamic"
             },
-            keyMetrics: [
-                { label: "Growth via Tech SEO", value: 8, suffix: "%" },
-                { label: "Sales Revenue Growth", value: 15, suffix: "%" },
-                { label: "Trading Analysis Accuracy", value: 65, suffix: "%" }
-            ],
             projects: [
                 {
                     title: "HFT Order Book Component",
@@ -163,10 +130,6 @@
                     link: "https://github.com/danishdynamic"
                 }
             ],
-            experienceFocus: {
-                labels: ["Software Eng", "Data Science", "Marketing/SEO", "Trading/Finance"],
-                data: [40, 20, 25, 15]
-            },
             experience: [
                 {
                     title: "Full-Stack Development & SEO",
@@ -174,9 +137,20 @@
                     location: "Remote",
                     dates: "2023 – Present",
                     details: [
-                        "Building robust backends using Python (Django/FastAPI) and modern JS frameworks.",
-                        "Optimized technical SEO architecture resulting in an 8% increase in organic conversion rates.",
-                        "Architected automated data extraction pipelines for lead generation and competitive analysis."
+                        "Architecting robust backends using Python (Django/FastAPI) and modern JS frameworks.",
+                        "Optimizing technical SEO infrastructure, leading to significant increases in organic conversion.",
+                        "Building automated data scraping and extraction tools for business intelligence."
+                    ]
+                },
+                {
+                    title: "BDR Level II & Technical Growth",
+                    company: "Databox",
+                    location: "Ljubljana / Boston (Remote)",
+                    dates: "Apr 2022 – Nov 2023",
+                    details: [
+                        "Leveraged market research and active listening to identify technical pain points for enterprise clients.",
+                        "Utilized data analysis in Excel to track user behavior and improve PLG (Product-Led Growth) strategies.",
+                        "Promoted to Level II within 9 months based on performance and analytical contributions to the sales cycle."
                     ]
                 },
                 {
@@ -185,9 +159,9 @@
                     location: "California, US (Remote)",
                     dates: "Jul 2021 – Mar 2022",
                     details: [
-                        "Conducted technical due diligence and rigorous pitch deck analysis for pre-seed and seed-stage tech startups.",
-                        "Automated deal flow tracking and valuation analysis (pre and post-seed) for fund management.",
-                        "Collaborated with founders to assess technical feasibility and market scalability of software products."
+                        "Conducted technical due diligence and valuation analysis for pre-seed and seed-stage startups.",
+                        "Synthesized complex market data into actionable investment reports for fund management.",
+                        "Analyzed software scalability and technical roadmaps during the startup selection process."
                     ]
                 },
                 {
@@ -196,9 +170,8 @@
                     location: "Ljubljana, Slovenia",
                     dates: "Jun 2021 – Sep 2021",
                     details: [
-                        "Developed custom web scrapers using Python, SQL, and Flask to track competitive pricing in real-time.",
-                        "Enhanced eCommerce conversions by implementing UX design improvements and empathy mapping strategies.",
-                        "Built automated email marketing workflows using Mailchimp and integrated CRM data for targeted consumer reach."
+                        "Built custom web scrapers using Python, SQL, and Flask for competitive pricing analysis.",
+                        "Automated marketing workflows and improved UX design through data-driven empathy mapping."
                     ]
                 },
                 {
@@ -207,51 +180,22 @@
                     location: "Ljubljana, Slovenia",
                     dates: "2019 – 2021",
                     details: [
-                        "Managed risk and executed high-frequency trades within the UK electricity market.",
-                        "Processed real-time market data to identify arbitrage opportunities in highly volatile energy contracts.",
-                        "Built custom Excel/VBA tools to streamline daily trading analysis and reporting."
-                    ]
-                }
-            ],
-            skills: [
-                {
-                    category: "Backend & Systems",
-                    items: [
-                        { name: "Python (Django/FastAPI)", level: 70 },
-                        { name: "C (HFT/Systems)", level: 65 },
-                        { name: "SQL & PostgreSQL", level: 70 }
-                    ]
-                },
-                {
-                    category: "Frontend & Machine Learning",
-                    items: [
-                        { name: "React & TypeScript", level: 65 },
-                        { name: "Deep Learning (PyTorch)", level: 70 },
-                        { name: "Tailwind CSS", level: 90 }
+                        "Executed high-frequency trades in the UK energy market based on real-time data analysis.",
+                        "Developed custom analytical tools to process market volatility and optimize trade entry/exit."
                     ]
                 }
             ]
         };
 
         document.addEventListener('DOMContentLoaded', () => {
-            // Metrics
-            const metricsContainer = document.getElementById('key-metrics');
-            resumeData.keyMetrics.forEach(m => {
-                metricsContainer.innerHTML += `
-                    <div class="bg-slate-50 p-6 rounded-xl border border-slate-100">
-                        <p class="text-3xl font-bold text-blue-600 mb-1"><span class="metric-value" data-value="${m.value}">0</span>${m.suffix}</p>
-                        <p class="text-sm font-medium text-slate-400 uppercase tracking-wide">${m.label}</p>
-                    </div>`;
-            });
-
-            // Projects Staggered Animation
+            // Render Projects
             const projectContainer = document.getElementById('github-projects');
             resumeData.projects.forEach((p, index) => {
                 projectContainer.innerHTML += `
                     <div class="project-card bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex flex-col" style="transition-delay: ${index * 150}ms">
                         <div class="flex justify-between items-start mb-4">
                             <h3 class="font-bold text-lg text-slate-800">${p.title}</h3>
-                            <a href="${p.link}" class="text-blue-500 hover:text-blue-700"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg></a>
+                            <a href="${p.link}" target="_blank" class="text-blue-500 hover:text-blue-700"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg></a>
                         </div>
                         <p class="text-slate-500 text-sm mb-6 flex-grow leading-relaxed">${p.desc}</p>
                         <div class="flex flex-wrap gap-2 mt-auto">
@@ -260,7 +204,7 @@
                     </div>`;
             });
 
-            // Timeline
+            // Render Timeline
             const expTimeline = document.getElementById('experience-timeline');
             resumeData.experience.forEach(exp => {
                 expTimeline.innerHTML += `
@@ -276,67 +220,20 @@
                     </div>`;
             });
 
-            // Contact Info
+            // Contact
             document.getElementById('contact-links').innerHTML = `
-                <a href="mailto:${resumeData.contact.email}" class="hover:text-blue-600 transition-colors">Email</a>
+                <a href="mailto:${resumeData.contact.email}" class="hover:text-blue-600">Email</a>
                 <span class="text-slate-300">•</span>
-                <a href="${resumeData.contact.linkedin}" target="_blank" class="hover:text-blue-600 transition-colors">LinkedIn</a>
+                <a href="${resumeData.contact.linkedin}" target="_blank" class="hover:text-blue-600">LinkedIn</a>
                 <span class="text-slate-300">•</span>
-                <a href="${resumeData.contact.portfolio}" target="_blank" class="hover:text-blue-600 transition-colors">GitHub</a>
+                <a href="${resumeData.contact.portfolio}" target="_blank" class="hover:text-blue-600">GitHub</a>
             `;
 
-            // Chart Initialization
-            const ctx = document.getElementById('experienceChart').getContext('2d');
-            new Chart(ctx, {
-                type: 'doughnut',
-                data: {
-                    labels: resumeData.experienceFocus.labels,
-                    datasets: [{
-                        data: resumeData.experienceFocus.data,
-                        backgroundColor: ['#2563eb', '#3b82f6', '#94a3b8', '#cbd5e1'],
-                        borderWidth: 0
-                    }]
-                },
-                options: { cutout: '75%', plugins: { legend: { position: 'bottom', labels: { usePointStyle: true, padding: 20 } } } }
-            });
-
-            // Skills Section
-            const skillsContainer = document.getElementById('skills-container');
-            resumeData.skills.forEach(cat => {
-                let itemsHtml = cat.items.map(i => `
-                    <div class="mb-4">
-                        <div class="flex justify-between text-sm mb-1 font-medium text-slate-600"><span>${i.name}</span><span>${i.level}%</span></div>
-                        <div class="w-full bg-slate-200 h-1.5 rounded-full overflow-hidden">
-                            <div class="skill-bar-fill bg-blue-600 h-full" style="width: 0%" data-level="${i.level}"></div>
-                        </div>
-                    </div>`).join('');
-                skillsContainer.innerHTML += `<div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm"><h4 class="font-bold mb-6 text-slate-800">${cat.category}</h4>${itemsHtml}</div>`;
-            });
-
-            // Intersection Observers
+            // Observer for Animations
             const revealObs = new IntersectionObserver(ents => {
                 ents.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible') });
             }, { threshold: 0.15 });
             document.querySelectorAll('.project-card').forEach(c => revealObs.observe(c));
-
-            const skillObs = new IntersectionObserver(ents => {
-                ents.forEach(e => { if(e.isIntersecting) e.target.style.width = e.target.dataset.level + '%' });
-            }, { threshold: 0.5 });
-            document.querySelectorAll('.skill-bar-fill').forEach(b => skillObs.observe(b));
-
-            const numObs = new IntersectionObserver(ents => {
-                ents.forEach(e => {
-                    if(e.isIntersecting) {
-                        let val = parseInt(e.target.dataset.value);
-                        let curr = 0;
-                        let inv = setInterval(() => {
-                            if(curr >= val) { e.target.innerText = val; clearInterval(inv); }
-                            else { e.target.innerText = curr++; }
-                        }, 30);
-                    }
-                });
-            });
-            document.querySelectorAll('.metric-value').forEach(v => numObs.observe(v));
         });
     </script>
 </body>
