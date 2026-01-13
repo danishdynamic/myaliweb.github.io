@@ -10,23 +10,30 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; color: #334155; }
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; color: #334155; overflow-x: hidden; }
         .mono { font-family: 'JetBrains Mono', monospace; }
         .chart-container { position: relative; width: 100%; max-width: 500px; margin: auto; height: 350px; }
         
-        /* Portfolio Animation */
-        .project-card { 
-            opacity: 0; 
-            transform: translateY(20px); 
-            transition: all 0.6s cubic-bezier(0.22, 1, 0.36, 1); 
+        /* Marquee Animation Logic */
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
         }
-        .project-card.visible { 
-            opacity: 1; 
-            transform: translateY(0); 
+
+        .animate-marquee {
+            display: flex;
+            width: max-content;
+            animation: marquee 50s linear infinite; /* Adjusted speed for readability */
         }
-        .project-card:hover { 
-            transform: translateY(-8px) scale(1.02); 
-            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+
+        .marquee-container:hover .animate-marquee {
+            animation-play-state: paused;
+        }
+
+        /* Gradient Fade for Marquee */
+        .marquee-mask {
+            mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+            -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
         }
 
         .timeline-dot::before {
@@ -43,9 +50,9 @@
 
         @media print {
             .no-print { display: none !important; }
-            body { background: white; padding: 0; margin: 0; }
-            .container { width: 100% !important; max-width: none !important; }
-            .project-card { opacity: 1; transform: none; border: 1px solid #e2e8f0; break-inside: avoid; }
+            .marquee-mask { mask-image: none; -webkit-mask-image: none; }
+            .animate-marquee { animation: none; flex-wrap: wrap; width: 100%; justify-content: center; }
+            .project-card { margin-bottom: 1rem; }
         }
     </style>
 </head>
@@ -62,8 +69,8 @@
         </nav>
     </header>
 
-    <main class="container mx-auto px-6 py-12">
-        <section id="hero" class="text-center mb-24">
+    <main class="py-12">
+        <section id="hero" class="container mx-auto px-6 text-center mb-24">
             <span class="px-4 py-1.5 bg-blue-100 text-blue-700 rounded-full text-sm font-bold uppercase tracking-wider">The Engineering Pivot</span>
             <h1 class="text-4xl md:text-6xl font-bold text-slate-900 mt-6 mb-6">Full-Stack Engineer <br><span class="text-blue-600">& Data Strategist</span></h1>
             <p class="text-lg md:text-xl text-slate-600 max-w-3xl mx-auto mb-8 leading-relaxed">
@@ -80,19 +87,22 @@
             </div>
         </section>
 
-        <section id="projects" class="mb-24">
+        <section id="projects" class="mb-24 overflow-hidden">
             <h2 class="text-3xl font-bold text-center text-slate-800 mb-12">Technical Portfolio</h2>
-            <div id="github-projects" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
+            <div class="marquee-container marquee-mask relative">
+                <div id="github-projects" class="animate-marquee gap-8 py-4">
+                    </div>
+            </div>
         </section>
 
-        <section id="skills" class="mb-24 bg-slate-50 py-12 rounded-3xl border border-slate-100">
+        <section id="skills" class="container mx-auto px-6 mb-24 bg-slate-50 py-12 rounded-3xl border border-slate-100">
             <h2 class="text-3xl font-bold text-center text-slate-800 mb-8">Technical Proficiency</h2>
             <div class="chart-container">
                 <canvas id="skillsChart"></canvas>
             </div>
         </section>
 
-        <section id="experience" class="mb-24">
+        <section id="experience" class="container mx-auto px-6 mb-24">
             <h2 class="text-3xl font-bold text-center text-slate-800 mb-12">Professional Journey</h2>
             <div class="max-w-4xl mx-auto">
                 <div id="experience-timeline" class="relative border-l-2 border-slate-200 ml-4 md:ml-6 space-y-12 pb-8"></div>
@@ -118,6 +128,12 @@
                 portfolio: "https://github.com/danishdynamic"
             },
             projects: [
+                {
+                    title: "Django CRM Enterprise",
+                    desc: "Architected a scalable CRM solution. Identified and resolved a critical database deadlock error, improving system uptime and multi-user concurrency efficiency.",
+                    tech: ["Django", "PostgreSQL", "ORM Optimization"],
+                    link: "https://github.com/danishdynamic"
+                },
                 {
                     title: "HFT Order Book Component",
                     desc: "Contributed low-level optimizations in C for high-frequency trading order book management, focusing on memory alignment and latency reduction.",
@@ -167,18 +183,7 @@
                     dates: "Jul 2021 – Mar 2022",
                     details: [
                         "Conducted technical due diligence and valuation analysis for pre-seed and seed-stage startups.",
-                        "Synthesized complex market data into actionable investment reports for fund management.",
-                        "Analyzed software scalability and technical roadmaps during the startup selection process."
-                    ]
-                },
-                {
-                    title: "Sales & Marketing Specialist",
-                    company: "Martin Stipic S.P.",
-                    location: "Ljubljana, Slovenia",
-                    dates: "Jun 2021 – Sep 2021",
-                    details: [
-                        "Built custom web scrapers using Python, SQL, and Flask for competitive pricing analysis.",
-                        "Automated marketing workflows and improved UX design through data-driven empathy mapping."
+                        "Synthesized complex market data into actionable investment reports for fund management."
                     ]
                 },
                 {
@@ -195,23 +200,30 @@
         };
 
         document.addEventListener('DOMContentLoaded', () => {
-            // Render Projects
             const projectContainer = document.getElementById('github-projects');
-            resumeData.projects.forEach((p, index) => {
-                projectContainer.innerHTML += `
-                    <div class="project-card bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex flex-col" style="transition-delay: ${index * 150}ms">
-                        <div class="flex justify-between items-start mb-4">
-                            <h3 class="font-bold text-lg text-slate-800">${p.title}</h3>
-                            <a href="${p.link}" target="_blank" class="text-blue-500 hover:text-blue-700"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg></a>
-                        </div>
-                        <p class="text-slate-500 text-sm mb-6 flex-grow leading-relaxed">${p.desc}</p>
-                        <div class="flex flex-wrap gap-2 mt-auto">
-                            ${p.tech.map(t => `<span class="mono text-[10px] bg-slate-100 px-2 py-1 rounded text-slate-600 font-bold uppercase">${t}</span>`).join('')}
-                        </div>
-                    </div>`;
-            });
+            
+            const createCardHTML = (p) => `
+                <div class="project-card bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex flex-col w-[320px] md:w-[420px] shrink-0 hover:border-blue-400 transition-all duration-300">
+                    <div class="flex justify-between items-start mb-4">
+                        <h3 class="font-bold text-lg text-slate-800">${p.title}</h3>
+                        <a href="${p.link}" target="_blank" class="text-blue-500 hover:text-blue-700">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                        </a>
+                    </div>
+                    <p class="text-slate-500 text-sm mb-6 flex-grow leading-relaxed">${p.desc}</p>
+                    <div class="flex flex-wrap gap-2 mt-auto">
+                        ${p.tech.map(t => `<span class="mono text-[10px] bg-slate-100 px-2 py-1 rounded text-slate-600 font-bold uppercase">${t}</span>`).join('')}
+                    </div>
+                </div>`;
 
-            // Render Timeline
+            // Quadruple the list if the project count is low to ensure the marquee spans the screen
+            const repeatCount = resumeData.projects.length < 5 ? 4 : 2;
+            let combinedHTML = '';
+            for(let i=0; i < repeatCount; i++) {
+                combinedHTML += resumeData.projects.map(p => createCardHTML(p)).join('');
+            }
+            projectContainer.innerHTML = combinedHTML;
+
             const expTimeline = document.getElementById('experience-timeline');
             resumeData.experience.forEach(exp => {
                 expTimeline.innerHTML += `
@@ -227,7 +239,6 @@
                     </div>`;
             });
 
-            // Contact
             document.getElementById('contact-links').innerHTML = `
                 <a href="mailto:${resumeData.contact.email}" class="hover:text-blue-600">Email</a>
                 <span class="text-slate-300">•</span>
@@ -236,7 +247,6 @@
                 <a href="${resumeData.contact.portfolio}" target="_blank" class="hover:text-blue-600">GitHub</a>
             `;
 
-            // Skills Chart Configuration
             const ctx = document.getElementById('skillsChart').getContext('2d');
             new Chart(ctx, {
                 type: 'radar',
@@ -244,36 +254,20 @@
                     labels: ['Backend (Python/Django)', 'Frontend (React/TS)', 'Low-Level (C)', 'Data Analysis', 'SEO/Growth', 'System Design'],
                     datasets: [{
                         label: 'Proficiency Level %',
-                        data: [75, 68, 62, 72, 70, 65], 
-                        backgroundColor: 'rgba(37, 99, 235, 0.2)',
+                        data: [85, 68, 62, 72, 70, 75], 
+                        backgroundColor: 'rgba(37, 99, 235, 0.1)',
                         borderColor: 'rgba(37, 99, 235, 1)',
                         borderWidth: 2,
                         pointBackgroundColor: 'rgba(37, 99, 235, 1)',
                     }]
                 },
                 options: {
-                    scales: {
-                        r: {
-                            angleLines: { display: true },
-                            suggestedMin: 0,
-                            suggestedMax: 100,
-                            ticks: { stepSize: 20, display: false }
-                        }
-                    },
-                    plugins: {
-                        legend: { display: false }
-                    },
+                    scales: { r: { suggestedMin: 0, suggestedMax: 100, ticks: { display: false } } },
+                    plugins: { legend: { display: false } },
                     maintainAspectRatio: false
                 }
             });
-
-            // Observer for Animations
-            const revealObs = new IntersectionObserver(ents => {
-                ents.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible') });
-            }, { threshold: 0.15 });
-            document.querySelectorAll('.project-card').forEach(c => revealObs.observe(c));
         });
     </script>
 </body>
 </html>
-
